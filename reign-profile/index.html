@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Profile — Reign</title>
+  <link rel="stylesheet" href="reign.css">
+</head>
+<body>
+
+  <header>
+    <span class="brand">Reign</span>
+    <nav>
+      <a href="#">Dashboard</a>
+      <a href="#">Plans</a>
+      <a href="#">Invest</a>
+      <a href="#">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-head">
+      <h1>My Profile</h1>
+    </div>
+
+    <!-- Profile completion -->
+    <section>
+      <h2>Profile Completion</h2>
+      <p>Complete your profile to unlock all account features.</p>
+      <div class="progress-row">
+        <progress value="100" max="100"></progress>
+        <strong>100%</strong>
+      </div>
+    </section>
+
+    <!-- Personal information + address -->
+    <section>
+      <form id="profileForm">
+        <h2>Personal Information</h2>
+        <div class="field-grid">
+          <div class="field"><label for="firstName">First Name</label><input id="firstName" value="John" readonly></div>
+          <div class="field"><label for="lastName">Last Name</label><input id="lastName" value="Doe" readonly></div>
+          <div class="field"><label for="middleName">Middle Name</label><input id="middleName" value=""></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" value="name@example.com" readonly></div>
+          <div class="field"><label for="phone">Phone Number</label><input id="phone" value="+234 800 000 0000" readonly></div>
+          <div class="field"><label for="dob">Date of Birth</label><input id="dob" type="date"></div>
+          <div class="field"><label for="gender">Gender</label>
+            <select id="gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
+          <div class="field"><label for="marital">Marital Status</label>
+            <select id="marital"><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option></select></div>
+          <div class="field"><label for="postal">Postal Code</label><input id="postal"></div>
+        </div>
+
+        <hr>
+
+        <h2>Address</h2>
+        <div class="field-grid">
+          <div class="field"><label for="country">Country</label><input id="country" value="Nigeria"></div>
+          <div class="field"><label for="state">State</label><input id="state"></div>
+          <div class="field"><label for="city">City</label><input id="city"></div>
+          <div class="field full"><label for="address">Address</label><textarea id="address"></textarea></div>
+        </div>
+
+        <button type="submit">Save Profile</button>
+      </form>
+    </section>
+
+    <!-- Account security -->
+    <section>
+      <h2>Account Security &amp; Verification</h2>
+
+      <div class="security-row">
+        <div><h3>Email Address</h3><span class="checking" id="emailStatus">Checking...</span></div>
+      </div>
+
+      <div class="security-row">
+        <div><h3>Phone Number</h3><span class="checking" id="phoneStatus">Checking...</span></div>
+      </div>
+
+      <div class="security-row">
+        <div>
+          <h3>Two-Factor Authentication</h3>
+          <p style="margin:0">Add an additional layer of security to your account.</p>
+        </div>
+        <div>
+          <span class="badge" id="twoFaBadge">Enabled</span>
+          <button class="danger" id="twoFaBtn" type="button">Disable 2FA</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Identity verification -->
+    <section class="verified-card">
+      <h2>Identity Verification</h2>
+      <p>Verify your identity to unlock all account features.</p>
+
+      <div class="verified-hero">
+        <div class="check-ring">
+          <svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        </div>
+        <div>
+          <span class="badge">Verified</span>
+          <h3 style="margin-top:8px">Identity successfully verified</h3>
+          <p>Your account is fully verified and you can access all features that require identity verification.</p>
+        </div>
+      </div>
+
+      <dl>
+        <dt>Document Type</dt><dd>Passport</dd>
+        <dt>Document Number</dt><dd>A00000000</dd>
+        <dt>Verified On</dt><dd>11 August 2026</dd>
+      </dl>
+      <button type="button">View Verification Details</button>
+    </section>
+
+    <!-- Bank accounts -->
+    <section>
+      <div class="section-head">
+        <h2>Bank Accounts</h2>
+        <button class="btn-primary" type="button" id="addBank">+ Add Bank Account</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Bank</th><th>Account Number</th><th>Account Name</th><th>Default</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="bankRows">
+          <tr data-default="true">
+            <td>Fidelity Bank</td><td>0000000001</td><td>JOHN DOE</td><td class="default-yes">Yes</td>
+            <td><button type="button">Edit</button><button type="button" class="danger" data-action="delete">Delete</button></td>
+          </tr>
+          <tr>
+            <td>First Bank PLC</td><td>0000000002</td><td>DOE JOHN</td><td>No</td>
+            <td><button type="button" data-action="default">Set Default</button><button type="button">Edit</button><button type="button" class="danger" data-action="delete">Delete</button></td>
+          </tr>
+          <tr>
+            <td>Access Bank</td><td>0000000003</td><td>JOHN DOE</td><td>No</td>
+            <td><button type="button" data-action="default">Set Default</button><button type="button">Edit</button><button type="button" class="danger" data-action="delete">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const toast = document.getElementById('toast');
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(showToast.t);
+      showToast.t = setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    // Simulated email/phone verification check
+    setTimeout(() => {
+      for (const [id, text] of [['emailStatus', 'Verified'], ['phoneStatus', 'Verified']]) {
+        const el = document.getElementById(id);
+        el.className = 'badge';
+        el.textContent = text;
+      }
+    }, 1800);
+
+    // Save profile
+    document.getElementById('profileForm').addEventListener('submit', e => {
+      e.preventDefault();
+      showToast('Profile saved');
+    });
+
+    // 2FA toggle
+    const twoFaBtn = document.getElementById('twoFaBtn');
+    const twoFaBadge = document.getElementById('twoFaBadge');
+    let twoFaOn = true;
+    twoFaBtn.addEventListener('click', () => {
+      twoFaOn = !twoFaOn;
+      twoFaBadge.textContent = twoFaOn ? 'Enabled' : 'Disabled';
+      twoFaBadge.classList.toggle('error', !twoFaOn);
+      twoFaBtn.textContent = twoFaOn ? 'Disable 2FA' : 'Enable 2FA';
+      twoFaBtn.classList.toggle('danger', twoFaOn);
+      showToast(twoFaOn ? 'Two-factor authentication enabled' : 'Two-factor authentication disabled');
+    });
+
+    // Bank table actions (set default / delete)
+    document.getElementById('bankRows').addEventListener('click', e => {
+      const btn = e.target.closest('button[data-action]');
+      if (!btn) return;
+      const row = btn.closest('tr');
+      const rows = [...row.parentElement.children];
+
+      if (btn.dataset.action === 'default') {
+        rows.forEach(r => {
+          const isThis = r === row;
+          r.dataset.default = isThis;
+          const cell = r.children[3];
+          cell.textContent = isThis ? 'Yes' : 'No';
+          cell.className = isThis ? 'default-yes' : '';
+          const setBtn = r.querySelector('[data-action="default"]');
+          if (isThis && setBtn) setBtn.remove();
+          if (!isThis && !setBtn) {
+            const b = document.createElement('button');
+            b.type = 'button'; b.dataset.action = 'default'; b.textContent = 'Set Default';
+            r.lastElementChild.prepend(b);
+          }
+        });
+        showToast('Default account updated');
+      }
+
+      if (btn.dataset.action === 'delete') {
+        if (row.dataset.default === 'true') { showToast('Set another default account first'); return; }
+        row.classList.add('removing');
+        row.addEventListener('animationend', () => row.remove(), { once: true });
+        showToast('Bank account removed');
+      }
+    });
+
+    document.getElementById('addBank').addEventListener('click', () => showToast('Hook this up to your Add Bank form'));
+  </script>
+</body>
+</html>
